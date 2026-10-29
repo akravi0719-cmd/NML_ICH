@@ -1,0 +1,5 @@
+<?php
+session_start();
+define('DB_HOST','127.0.0.1'); define('DB_NAME','nml_ich_portal'); define('DB_USER','root'); define('DB_PASS','');
+try{$pdo=new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8mb4',DB_USER,DB_PASS,[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);}catch(PDOException $e){http_response_code(500);exit('Database connection failed. Check config.php and make sure MySQL is running.');}
+function e($s){return htmlspecialchars((string)$s,ENT_QUOTES,'UTF-8');} function go($p){header('Location: '.$p);exit;} function csrf(){if(empty($_SESSION['csrf']))$_SESSION['csrf']=bin2hex(random_bytes(24));return $_SESSION['csrf'];} function check_csrf(){if($_SERVER['REQUEST_METHOD']==='POST'&&!hash_equals(csrf(),$_POST['csrf']??'')){http_response_code(419);exit('Invalid form token. Please go back and retry.');}} function msg($m){$_SESSION['msg']=$m;} function flash(){if(empty($_SESSION['msg']))return ''; $m=$_SESSION['msg'];unset($_SESSION['msg']);return '<div class="alert">'.e($m).'</div>';}

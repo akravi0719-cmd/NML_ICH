@@ -1,0 +1,1 @@
+<?php require 'config.php'; if(!empty($_SESSION['admin_id']))go('admin_dashboard.php');if(!empty($_SESSION['user_id']))go('dashboard.php');go('login.php');
